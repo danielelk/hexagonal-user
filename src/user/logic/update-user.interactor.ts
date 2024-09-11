@@ -6,13 +6,14 @@ import {
 import { UsersRepository } from '../data/users.repository';
 import { UpdateUserDto } from '../api/dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { UserEntity } from '../domain/user.entity';
 
 @Injectable()
 export class UpdateUserInteractor {
   private readonly salt = 10;
   constructor(private readonly userRepository: UsersRepository) {}
 
-  async execute(id: string, updateData: UpdateUserDto) {
+  async execute(id: string, updateData: UpdateUserDto): Promise<UserEntity> {
     try {
       if (!(await this.userRepository.findOne(id))) {
         throw new NotFoundException(`User with id ${id} not found`);
